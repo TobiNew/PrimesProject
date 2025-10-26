@@ -36,8 +36,6 @@ public class PrimeControllerTest {
     @Mock
     private PrimeServiceImpl primeService;
 
-    @Mock
-    private AlgorithmsImpl algorithimsService;
 
     @InjectMocks
     private  PrimeController primeController;
