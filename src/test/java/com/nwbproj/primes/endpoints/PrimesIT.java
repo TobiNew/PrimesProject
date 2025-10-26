@@ -56,6 +56,19 @@ public class PrimesIT {
     }
 
     @Test
+    @DisplayName("Retrieves short list of primes (SoE Concurrency)")
+    public void GivenPrimeInput100AndSoEConcurrencyAlgorithm_ShouldReturnResponse(){
+        given()
+                .contentType("application/json")
+                .param("algorithm", AlgorithmsEnum.SIEVE_CONCURRENCY)
+                .get("100")
+                .then()
+                .assertThat()
+                .body("primeNumbers", instanceOf(ArrayList.class))
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
     @DisplayName("Retrieves short list of primes (XML)")
     public void GivenPrimeInput100AndDefaultAlgorithm_ShouldReturnResponseXML(){
         given()

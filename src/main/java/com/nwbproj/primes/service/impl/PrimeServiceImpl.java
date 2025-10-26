@@ -42,6 +42,7 @@ public class PrimeServiceImpl implements PrimeService {
         switch (algorithm){
             case DEFAULT -> response.setPrimeNumbers(algorithms.defaultAlgorithm(number));
             case SIEVE_OF_ERATHOSTENES -> response.setPrimeNumbers(algorithms.sieveOfEratosthenes(number));
+            case SIEVE_CONCURRENCY -> response.setPrimeNumbers(algorithms.sieveConcurrency(number));
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);

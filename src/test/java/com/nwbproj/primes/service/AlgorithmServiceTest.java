@@ -3,14 +3,20 @@ package com.nwbproj.primes.service;
 
 import com.nwbproj.primes.algorithms.impl.AlgorithmsImpl;
 import com.nwbproj.primes.utils.TestUtils;
+import jakarta.validation.constraints.Null;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,12 +30,11 @@ public class AlgorithmServiceTest {
     private AlgorithmsImpl algorithimsService;
 
 
-    @Test
     @DisplayName("Default Algorithm: values 1 and 0 should return empty responses")
-    public void Given0And1_ShouldReturnEmptyDefault(){
-        ArrayList<Integer> zeroResponse = algorithimsService.defaultAlgorithm(0);
-
-        ArrayList<Integer> oneResponse = algorithimsService.defaultAlgorithm(1);
+    @ValueSource(ints = {0,1})
+    public void Given0And1_ShouldReturnEmptyDefault(int input){
+        ArrayList<Integer> zeroResponse = algorithimsService.defaultAlgorithm(input);
+        ArrayList<Integer> oneResponse = algorithimsService.defaultAlgorithm(input);
 
         assertTrue(zeroResponse.isEmpty());
         assertTrue(oneResponse.isEmpty());
@@ -46,12 +51,31 @@ public class AlgorithmServiceTest {
 
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("SoE Algorithm: values 1 and 0 should return empty responses")
-    public void Given0And1_ShouldReturnEmptySoE(){
-        ArrayList<Integer> zeroResponse = algorithimsService.sieveOfEratosthenes(0);
+    @ValueSource(ints = {0,1})
+    public void Given0And1_ShouldReturnEmptySoE(int input){
+        ArrayList<Integer> response = algorithimsService.sieveOfEratosthenes(input);
+        assertTrue(response.isEmpty());
+    }
 
-        ArrayList<Integer> oneResponse = algorithimsService.sieveOfEratosthenes(1);
+    @Test
+    @DisplayName("SoE Algorithm: Should return list of primes up to 100")
+    public void GivenInput100_ShouldReturnListOfPrimesSoE() throws IOException {
+        ArrayList<Integer> response = algorithimsService.sieveOfEratosthenes(100);
+
+        ArrayList<Integer> expected = TestUtils.loadFromJson("src/test/java/resources/PrimesList.json");
+        assertEquals(expected, response);
+
+    }
+
+
+    @ParameterizedTest
+    @DisplayName("SoE Concurrency Algorithm: values 1 and 0 should return empty responses")
+    @ValueSource(ints = {0,1})
+    public void Given0And1_ShouldReturnEmptySoEConcurrency(int input) throws InterruptedException {
+        ArrayList<Integer> zeroResponse = algorithimsService.sieveConcurrency(input);
+        ArrayList<Integer> oneResponse = algorithimsService.sieveConcurrency(input);
 
         assertTrue(zeroResponse.isEmpty());
         assertTrue(oneResponse.isEmpty());
@@ -59,9 +83,9 @@ public class AlgorithmServiceTest {
     }
 
     @Test
-    @DisplayName("SoE Algorithm: Should return list of primes up to 100")
-    public void GivenInput100_ShouldReturnListOfPrimesSoE() throws IOException {
-        ArrayList<Integer> response = algorithimsService.sieveOfEratosthenes(100);
+    @DisplayName("SoE Concurrency Algorithm: Should return list of primes up to 100")
+    public void GivenInput100_ShouldReturnListOfPrimesSoEConcurrency() throws IOException, InterruptedException {
+        ArrayList<Integer> response = algorithimsService.sieveConcurrency(100);
 
         ArrayList<Integer> expected = TestUtils.loadFromJson("src/test/java/resources/PrimesList.json");
         assertEquals(expected, response);

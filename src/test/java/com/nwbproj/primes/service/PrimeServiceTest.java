@@ -10,9 +10,12 @@ import com.nwbproj.primes.service.impl.PrimeServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -35,28 +38,26 @@ public class PrimeServiceTest {
     @InjectMocks
     private PrimeServiceImpl primeService;
 
-    @Test
-    @DisplayName("Should return a Response Entity list of values from Algorithm service (Default algorithm")
-    public void GivenValidInput_ShouldReturnResponseEntityDefault() throws Exception {
 
-        when(algorithimsService.defaultAlgorithm(any())).thenReturn(new ArrayList<Integer>());
-
-        ResponseEntity<PrimesResponse> response = primeService.calculatePrimeList(100, AlgorithmsEnum.DEFAULT);
-
-        verify(algorithimsService, times(1)).defaultAlgorithm(100);
-        assertEquals(ArrayList.class, Objects.requireNonNull(response.getBody()).getPrimeNumbers().getClass());
-
-    }
-
-    @Test
+    @ParameterizedTest
     @DisplayName("Should return a Response Entity list of values from Algorithm service")
-    public void GivenValidInput_ShouldReturnResponseEntitySOE() throws Exception {
-        when(algorithimsService.sieveOfEratosthenes(any())).thenReturn(new ArrayList<Integer>());
+    @EnumSource(AlgorithmsEnum.class)
+    public void GivenValidInput_ShouldReturnResponseEntity(AlgorithmsEnum algorithmsEnum) throws Exception {
 
-        ResponseEntity<PrimesResponse> response = primeService.calculatePrimeList(100, AlgorithmsEnum.SIEVE_OF_ERATHOSTENES);
+        switch (algorithmsEnum){
+            case DEFAULT -> when(algorithimsService.defaultAlgorithm(any())).thenReturn(new ArrayList<Integer>());
+            case SIEVE_CONCURRENCY -> when(algorithimsService.sieveConcurrency(any())).thenReturn(new ArrayList<Integer>());
+            case SIEVE_OF_ERATHOSTENES -> when(algorithimsService.sieveOfEratosthenes(any())).thenReturn(new ArrayList<Integer>());
+        }
 
-        verify(algorithimsService, times(1)).sieveOfEratosthenes(100);
-        assertEquals(ArrayList.class, Objects.requireNonNull(response.getBody()).getPrimeNumbers().getClass());
+        ResponseEntity<PrimesResponse> response = primeService.calculatePrimeList(100, algorithmsEnum);
+
+        assertAll(
+                () -> assertNotNull(response),
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertNotNull(response.getBody()),
+                () -> assertEquals(ArrayList.class, response.getBody().getPrimeNumbers().getClass())
+        );
 
     }
 
@@ -83,5 +84,7 @@ public class PrimeServiceTest {
         assertEquals("Values below 0 are invalid", exception.getLocalizedMessage());
 
     }
+
+
 
 }
