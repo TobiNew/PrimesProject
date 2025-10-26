@@ -1,4 +1,4 @@
-# PrimeProject Microservice
+# PrimesProject Microservice
 
 ## Overview
 
@@ -12,7 +12,7 @@ Requirements
 
 -   Clone the repository:
 
-    git clone https://github.com/TobiOl/PrimeProject.git
+    git clone https://github.com/TobiNew/PrimesProject.git
 
 
 Build the project:
@@ -36,9 +36,9 @@ GET /getPrime/{value}
 ```
 ### Request Parameter
 
-| Parameter | Type        | Description                 | Possible values                | Required | Default value |
-|-----------|-------------|-----------------------------|--------------------------------|----------|---------------|
-| algorithm | Query param | The chosen algorithm to use | DEFAULT, SIEVE_OF_ERATHOSTENES | No       | DEFAULT       |
+| Parameter | Type        | Description                 | Possible values                                   | Required | Default value |
+|-----------|-------------|-----------------------------|---------------------------------------------------|----------|---------------|
+| algorithm | Query param | The chosen algorithm to use | DEFAULT, SIEVE_OF_ERATHOSTENES, SIEVE_CONCURRENCY | No       | DEFAULT       |
 
 Output can be returned as either json or XML using
 

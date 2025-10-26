@@ -46,13 +46,8 @@ public class PrimeControllerTest {
 
     private final static String primesPath = "http://localhost:8080/getPrime/";
 
-    private final static AlgorithmsEnum algorithm = AlgorithmsEnum.DEFAULT;
-
     @BeforeEach
     public void setup(){
-
-
-
         mockMvc = MockMvcBuilders.standaloneSetup(primeController)
                 .build();
     }
