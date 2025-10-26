@@ -3,24 +3,18 @@ package com.nwbproj.primes.service;
 
 import com.nwbproj.primes.algorithms.impl.AlgorithmsImpl;
 import com.nwbproj.primes.utils.TestUtils;
-import jakarta.validation.constraints.Null;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +24,7 @@ public class AlgorithmServiceTest {
     private AlgorithmsImpl algorithimsService;
 
 
+    @ParameterizedTest
     @DisplayName("Default Algorithm: values 1 and 0 should return empty responses")
     @ValueSource(ints = {0,1})
     public void Given0And1_ShouldReturnEmptyDefault(int input){
