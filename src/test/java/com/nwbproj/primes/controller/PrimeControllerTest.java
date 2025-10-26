@@ -57,7 +57,7 @@ public class PrimeControllerTest {
     @DisplayName("Retrieves list of prime numbers(JSON)")
     public void GivenValidParameters_ShouldReturnOkJSON() throws Exception{
         when(primeService.calculatePrimeList(100, AlgorithmsEnum.DEFAULT))
-                .thenReturn(new ResponseEntity<PrimesResponse>(HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         mockMvc.perform(get(StringUtils.join(primesPath, primeNumber))
                         .queryParam("algorithm", String.valueOf(AlgorithmsEnum.DEFAULT))
@@ -72,7 +72,7 @@ public class PrimeControllerTest {
     @DisplayName("Retrieves list of prime numbers(XML)")
     public void GivenValidParameters_ShouldReturnOkXML() throws Exception{
         when(primeService.calculatePrimeList(100, AlgorithmsEnum.DEFAULT))
-                .thenReturn(new ResponseEntity<PrimesResponse>(HttpStatus.OK));
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         mockMvc.perform(get(StringUtils.join(primesPath, primeNumber))
                         .queryParam("algorithm", String.valueOf(AlgorithmsEnum.DEFAULT))
