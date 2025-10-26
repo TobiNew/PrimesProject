@@ -1,8 +1,6 @@
 package com.nwbproj.primes.controller;
 
 import com.nwbproj.primes.enums.AlgorithmsEnum;
-import com.nwbproj.primes.model.PrimesResponse;
-import com.nwbproj.primes.algorithms.impl.AlgorithmsImpl;
 import com.nwbproj.primes.service.impl.PrimeServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
