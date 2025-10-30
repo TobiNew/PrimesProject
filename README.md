@@ -62,3 +62,5 @@ Example Response:
 		    7
 	    ]
     }
+
+Deployment URL: http://primesproj-env.eba-27yngmyp.eu-west-2.elasticbeanstalk.com/swagger-ui/index.html
